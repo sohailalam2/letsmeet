@@ -1,0 +1,7 @@
+[
+  {
+    "interfaces": [
+      "io.skillsfactory.domain.certificate.service.PDFGeneratorService"
+    ]
+  }
+]

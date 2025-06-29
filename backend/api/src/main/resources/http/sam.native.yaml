@@ -1,0 +1,114 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Quarkus - HTTP Service with HTTP API v2 Authorizer
+
+Parameters:
+  GoogleClientId:
+    Type: String
+    Description: Google OAuth Client ID
+    NoEcho: true # Hides value in AWS Console for security
+  GoogleClientSecret:
+    Type: String
+    Description: Google OAuth Client Secret
+    NoEcho: true
+
+Resources:
+  BackendNative:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "letsmeet-native-api"
+      Tracing: Active
+      Handler: not.used.in.provided.runtimei
+      Runtime: provided.al2023
+      CodeUri: function.zip
+      MemorySize: 2048
+      Timeout: 180
+      Environment:
+        Variables:
+          GOOGLE_CLIENT_ID: !Ref GoogleClientId
+          GOOGLE_CLIENT_SECRET: !Ref GoogleClientSecret
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess
+        - AmazonSSMFullAccess
+        - AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonSNSFullAccess
+        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonChimeSDK
+        - arn:aws:iam::aws:policy/AmazonChimeFullAccess
+      Events:
+        ApiV1Any:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref NativeApiGatewayHttpApi
+            Path: /api/v1
+            Method: ANY
+        ApiV1ProxyAny:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref NativeApiGatewayHttpApi
+            Path: /api/v1/{proxy+}
+            Method: ANY
+
+  IAMAuthorizerNativeExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join [ "-", [ { "Ref": "AWS::Region" }, "letsmeet-authorizer-native-java-execution-role" ] ]
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: arn:aws:lambda:ap-south-1:945032860889:function:letsmeet-authorizer-native-funq
+      Tags:
+        - Key: 'lambda:createdBy'
+          Value: SAM
+
+  # Authorizer Lambda Function
+  IAMAuthorizerNative:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "letsmeet-authorizer-native-funq"
+      Tracing: Active
+      Handler: not.used.in.provided.runtimei
+      Runtime: provided.al2023
+      CodeUri: ../../authorizer-funq/target/function.zip  # Path to the mounted authorizer ZIP
+      MemorySize: 1024
+      Timeout: 180
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonSSMReadOnlyAccess
+        - AmazonDynamoDBReadOnlyAccess
+
+  # HTTP API v2
+  NativeApiGatewayHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Name: NativeLetsMeetDevHttpApi
+      Description: HTTP API v2 for Let's meet backend Service
+
+Outputs:
+  IAMAuthorizerNativeFunctionArn:
+    Description: iam java token authorizer's arn
+    Value: !GetAtt IAMAuthorizerNative.Arn
+    Export:
+      Name: IAMAuthorizerNativeFunctionArn
+  IAMAuthorizerNativeExecutionRoleArn:
+    Description: iam java token authorizer invocation role's arn
+    Value: !GetAtt IAMAuthorizerNativeExecutionRole.Arn
+    Export:
+      Name: IAMAuthorizerNativeExecutionRoleArn
+  NativeApiUrl:
+    Description: URL of the HTTP API Gateway
+    Value: !Sub "https://${NativeApiGatewayHttpApi}.execute-api.${AWS::Region}.amazonaws.com/api"  # No /prod prefix by default in v2 unless specified

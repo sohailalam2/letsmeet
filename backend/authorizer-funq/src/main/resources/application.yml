@@ -1,0 +1,47 @@
+app:
+  application-namespace: ${APPLICATION_NAMESPACE:letsmeet}
+  iam-table-name: ${IAM_TABLE_NAME:meetings}
+  aws:
+    region: ${AWS_REGION:us-east-1}
+  authorizer:
+    policy:
+      unauthorized-principal: threat
+
+quarkus:
+  log:
+    category:
+      "com.yourkoder":
+        level: DEBUG
+        min-level: DEBUG
+  http:
+    host-enabled: false
+  #  config:
+  #    mapping:
+  #      validate-unknown: false
+  devservices:
+    enabled: false
+  camel:
+    routes-discovery:
+      enabled: false
+  native:
+    additional-build-args: -H:ConfigurationResourceRoots=native-image-config/, --initialize-at-run-time=org.springframework.core.io.VfsUtils
+  #    if we want to use Math.random() for native builds we must initialize its seed at run time
+  #    additional-build-args: --initialize-at-run-time=java.lang.Math$RandomNumberGeneratorHolder
+
+  container-image:
+    build: false
+    group: quarkus
+
+  jackson:
+    fail-on-unknown-properties: false
+    timezone: Asia/Kolkata
+  ssl:
+    native: true
+
+mp:
+  openapi:
+    extensions:
+      smallrye:
+        info:
+          title: Lets Meet Authorizer
+          description: The awesome Lambda Authorizer for Let's Meet backend APIs!

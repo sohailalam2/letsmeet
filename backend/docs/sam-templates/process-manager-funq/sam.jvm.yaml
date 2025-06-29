@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Quarkus - quarkus-amazon-lambda-common-deployment
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+    BinaryMediaTypes:
+      - "*/*"
+
+Parameters:
+  SlackBotToken:
+    Type: String
+    Description: Slack Bot App's secret token
+    NoEcho: true # Hides value in AWS Console for security
+  TrelloApiKey:
+    Type: String
+    Description: Trello's secret API key
+    NoEcho: true # Hides value in AWS Console for security
+  TrelloToken:
+    Type: String
+    Description: Trello's default user's access token
+    NoEcho: true # Hides value in AWS Console for security
+
+Resources:
+  LetsMeetProcessManager:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "letsmeet-process-manager-funq"
+      Handler: io.quarkus.funqy.lambda.FunqyStreamHandler::handleRequest
+      Runtime: java21
+      CodeUri: function.zip
+      MemorySize: 1536
+      Timeout: 60
+      Environment:
+        Variables:
+          SLACK_BOT_TOKEN: !Ref SlackBotToken
+          TRELLO_API_KEY: !Ref TrelloApiKey
+          TRELLO_TOKEN: !Ref TrelloToken
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess
+        - AmazonSSMFullAccess
+        - AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonBedrockFullAccess
+        - arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess
+        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonChimeSDK
+        - arn:aws:iam::aws:policy/AmazonChimeFullAccess

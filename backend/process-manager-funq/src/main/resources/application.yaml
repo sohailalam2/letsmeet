@@ -1,0 +1,59 @@
+app:
+  application-namespace: ${APPLICATION_NAMESPACE:letsmeet}
+  meeting-table-name: ${MEETING_TABLE_NAME:meetings}
+  iam-table-name: ${IAM_TABLE_NAME:meetings}
+  slack:
+    channel-id: ${SLACK_CHANNEL_ID:C0671B83LR0}
+    bot-token: ${SLACK_BOT_TOKEN:none}
+  trello:
+    api-key: ${TRELLO_API_KEY:none}
+    default-token: ${TRELLO_TOKEN:none} # https://trello.com/1/authorize?response_type=token&key=${TRELLO_API_KEY}&scope=read,write&expiration=never&name=letsmeet&return_url=https://localhost:8081/api/v1/auth/trello/callback
+    default-board-id: ${TRELLO_DEFAULT_BOARD_ID:6855025a39cc3c867749ce7c} # curl "https://api.trello.com/1/members/me/boards?key=${TRELLO_API_KEY}&token=${TRELLO_TOKEN}&fields=name"
+    default-list-id: ${TRELLO_DEFAULT_LIST_ID:6855025a39cc3c867749cecb} # curl "https://api.trello.com/1/boards/{BOARD_ID}/lists?key=${TRELLO_API_KEY}&token=${TRELLO_TOKEN}&fields=name"
+  aws:
+    bedrock:
+#      model-id: "meta.llama3-70b-instruct-v1:0"
+      model-id: anthropic.claude-3-haiku-20240307-v1:0
+    region: ${AWS_REGION:us-east-1}
+    s3:
+      bucket: ${MEETINGS_BUCKET_NAME:meetings}
+
+quarkus:
+  funqy:
+    amazon-lambda:
+      advanced-event-handling:
+        enabled: false
+  log:
+    category:
+      "com.yourkoder":
+        level: DEBUG
+        min-level: DEBUG
+  #  config:
+  #    mapping:
+  #      validate-unknown: false
+  devservices:
+    enabled: false
+  camel:
+    routes-discovery:
+      enabled: false
+  native:
+    additional-build-args: -H:ConfigurationResourceRoots=native-image-config/, --initialize-at-run-time=org.springframework.core.io.VfsUtils
+  #    if we want to use Math.random() for native builds we must initialize its seed at run time
+  #    additional-build-args: --initialize-at-run-time=java.lang.Math$RandomNumberGeneratorHolder
+
+  container-image:
+    build: false
+    group: quarkus
+
+  http:
+    access-log:
+      enabled: true
+    enable-compression: true
+    limits:
+      max-body-size: 10M
+
+  jackson:
+    fail-on-unknown-properties: false
+    timezone: Asia/Kolkata
+  ssl:
+    native: true

@@ -1,0 +1,75 @@
+{
+  "resources":{
+  "includes":[
+    {
+      "pattern":"\\QMETA-INF/services/io.smallrye.config.ConfigSourceInterceptor\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/services/io.smallrye.config.ConfigValidator\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/services/io.smallrye.config.SmallRyeConfigFactory\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/services/java.sql.Driver\\E"
+    }, 
+    {
+      "pattern":"\\QMETA-INF/services/org.eclipse.microprofile.config.spi.Converter\\E"
+    }, 
+    {
+      "pattern":"\\Qapplication.yml\\E"
+    }, 
+    {
+      "pattern":"\\Qjbossts-properties.xml\\E"
+    }, 
+    {
+      "pattern":"\\Qorg/jboss/threads/Version.properties\\E"
+    }, 
+    {
+      "pattern":"\\Qquarkus-runtime-config-defaults.properties\\E"
+    },
+    {
+      "pattern": "secretKey$"
+    },
+    {
+      "pattern": ".*\\.pem$"
+    },
+    {
+      "pattern": "stateSecretKey$"
+    },
+    {
+      "pattern": "application\\.yml"
+    },
+    {
+      "pattern": "com/amazonaws/partitions/endpoints\\.json"
+    },
+    {
+      "pattern": ".*\\.properties"
+    },
+    {
+      "pattern": ".*\\.yml"
+    },
+    {
+      "pattern": ".*\\.yaml"
+    },
+    {
+      "pattern":"\\Qjbossts-properties.xml\\E"
+    },
+    {
+      "pattern":"\\Qmozilla/public-suffix-list.txt\\E"
+    },
+    {
+      "pattern":"\\Qorg/jboss/threads/Version.properties\\E"
+    },
+    {
+      "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+    },
+    {
+      "pattern":"\\Qquarkus-runtime-config-defaults.properties\\E"
+    },
+    {
+      "pattern":"\\Qsoftware/amazon/awssdk/services/dynamodb/execution.interceptors\\E"
+    }
+  ]},
+  "bundles":[]
+}

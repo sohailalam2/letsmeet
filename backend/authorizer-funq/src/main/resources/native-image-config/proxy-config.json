@@ -1,0 +1,6 @@
+[
+  {
+    "interfaces":["jakarta.ws.rs.core.HttpHeaders"]},
+  { "interfaces": ["org.apache.http.conn.HttpClientConnectionManager", "org.apache.http.pool.ConnPoolControl", "software.amazon.awssdk.http.apache.internal.conn.Wrapped"] },
+  { "interfaces": ["org.apache.http.conn.HttpClientConnectionManager", "software.amazon.awssdk.http.apache.internal.conn.Wrapped"] }
+]

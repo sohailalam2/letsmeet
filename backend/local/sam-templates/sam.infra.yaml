@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Global shared resources for all modules
+
+Resources:
+  LetsMeetEventsDynamoDbTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lets-meet-dev-events
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: N
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  LetsMeetProjectionsDynamoDbTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lets-meet-dev-orders-projection
+      AttributeDefinitions:
+        - AttributeName: orderId
+          AttributeType: N
+      KeySchema:
+        - AttributeName: orderId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  LetsMeetWebsocketConnectionsDynamoDbTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lets-meet-dev-ws-connections
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5

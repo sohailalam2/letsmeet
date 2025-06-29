@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Quarkus - HTTP Service with HTTP API v2 Authorizer
+
+Parameters:
+  GoogleClientId:
+    Type: String
+    Description: Google OAuth Client ID
+    NoEcho: true # Hides value in AWS Console for security
+  GoogleClientSecret:
+    Type: String
+    Description: Google OAuth Client Secret
+    NoEcho: true
+
+Resources:
+  Backend:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "letsmeet-api"
+      Tracing: Active
+      Handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
+      Runtime: java21
+      CodeUri: function.zip
+      MemorySize: 2048
+      Timeout: 180
+      Environment:
+        Variables:
+          GOOGLE_CLIENT_ID: !Ref GoogleClientId
+          GOOGLE_CLIENT_SECRET: !Ref GoogleClientSecret
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess
+        - AmazonSSMFullAccess
+        - AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonSNSFullAccess
+        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonChimeSDK
+        - arn:aws:iam::aws:policy/AmazonChimeFullAccess
+      Events:
+        ApiV1Any:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ApiGatewayHttpApi
+            Path: /api/v1
+            Method: ANY
+        ApiV1ProxyAny:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ApiGatewayHttpApi
+            Path: /api/v1/{proxy+}
+            Method: ANY
+
+  # Authorizer Lambda Function
+  IAMAuthorizer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "letsmeet-authorizer-funq"
+      Tracing: Active
+      Handler: io.quarkus.funqy.lambda.FunqyStreamHandler::handleRequest
+      Runtime: java21
+      CodeUri: ../../authorizer-funq/target/function.zip  # Path to the mounted authorizer ZIP
+      MemorySize: 1024
+      Timeout: 180
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonSSMReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+
+  # HTTP API v2
+  ApiGatewayHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Name: LetsMeetDevHttpApi
+      Description: HTTP API v2 for Let's meet backend Service
+
+Outputs:
+  ApiUrl:
+    Description: URL of the HTTP API Gateway
+    Value: !Sub "https://${ApiGatewayHttpApi}.execute-api.${AWS::Region}.amazonaws.com/api"  # No /prod prefix by default in v2 unless specified

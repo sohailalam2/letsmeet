@@ -1,0 +1,60 @@
+#!/bin/bash
+
+echo "Select build option:"
+echo "1) Frontend only"
+echo "2) Backend JVM only"
+echo "3) Backend Native only"
+echo "4) Frontend + Backend JVM (default)"
+echo "5) Frontend + Backend Native"
+read -p "Enter choice [1-5]: " choice
+
+if [[ -z "$choice" ]]; then
+  choice=4
+fi
+
+build_frontend=false
+build_backend_jvm=false
+build_backend_native=false
+
+case $choice in
+  1)
+    build_frontend=true
+    ;;
+  2)
+    build_backend_jvm=true
+    ;;
+  3)
+    build_backend_native=true
+    ;;
+  4)
+    build_frontend=true
+    build_backend_jvm=true
+    ;;
+  5)
+    build_frontend=true
+    build_backend_native=true
+    ;;
+  *)
+    echo "Invalid choice. Exiting."
+    exit 1
+    ;;
+esac
+
+if $build_frontend; then
+  echo "Installing frontend dependencies"
+  (cd frontend && npm ci) || { echo "Frontend dependency installation failed."; exit 1; }
+  echo "Building frontend..."
+  (cd frontend && npm run build) || { echo "Frontend build failed."; exit 1; }
+fi
+
+if $build_backend_jvm; then
+  echo "Building backend JVM..."
+  (cd backend && mvn clean install) || { echo "Backend JVM build failed."; exit 1; }
+fi
+
+if $build_backend_native; then
+  echo "Building backend Native..."
+  (cd backend && mvn clean install -Pnative) || { echo "Backend Native build failed."; exit 1; }
+fi
+
+echo "Build completed."

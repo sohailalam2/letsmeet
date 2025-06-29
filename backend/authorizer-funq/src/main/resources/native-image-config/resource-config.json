@@ -1,0 +1,22 @@
+{
+  "resources": [
+    {
+      "pattern": "secretKey$"
+    },
+    {
+      "pattern": ".*\\.pem$"
+    },
+    {
+      "pattern": ".*\\.yml"
+    },
+    {
+      "pattern": ".*\\.yaml"
+    },
+    {
+      "pattern": ".*\\.properties"
+    },
+    {
+      "pattern": "com/amazonaws/partitions/endpoints\\.json"
+    }
+  ]
+}

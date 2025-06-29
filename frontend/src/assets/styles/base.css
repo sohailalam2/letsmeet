@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-dark-primary-50: #fd9d90;
+    --color-dark-primary-100: #fa887a;
+    --color-dark-primary-200: #f67264;
+    --color-dark-primary-300: #f15a4d;
+    --color-dark-primary-400: #eb3e33;
+    --color-dark-primary-500: #e50910;
+    --color-dark-primary-600: #c7070c;
+    --color-dark-primary-700: #aa0509;
+    --color-dark-primary-800: #8e0306;
+    --color-dark-primary-900: #720204;
+    --color-dark-secondary-50: #888685;
+    --color-dark-secondary-100: #72706f;
+    --color-dark-secondary-200: #5c5a59;
+    --color-dark-secondary-300: #484544;
+    --color-dark-secondary-400: #343231;
+    --color-dark-secondary-500: #221f1e;
+    --color-dark-secondary-600: #1c1919;
+    --color-dark-secondary-700: #161413;
+    --color-dark-secondary-800: #110f0e;
+    --color-dark-secondary-900: #0b0a09;
+    --color-dark-tertiary-50: #fafaff;
+    --color-dark-tertiary-100: #f9f9ff;
+    --color-dark-tertiary-200: #f8f8ff;
+    --color-dark-tertiary-300: #f7f7ff;
+    --color-dark-tertiary-400: #f6f6ff;
+    --color-dark-tertiary-500: #f5f5ff;
+    --color-dark-tertiary-600: #d5d5de;
+    --color-dark-tertiary-700: #b6b6be;
+    --color-dark-tertiary-800: #98989e;
+    --color-dark-tertiary-900: #7b7b80;
+}
+
+.overlay-std {
+    border-radius: 0.75rem;
+    width: 24rem;
+    height: 24rem;
+}
+
+.soft-corner {
+    border-radius: 0.75rem;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
+    border-radius: 4px;
+}
+
+.scrollbar-hidden {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* Safari & Chrome */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.3s ease-out;
+}
+
+.animate-fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+
+/* --------------------------------------- */
+/* Dropdown fix */
+
+/* Universal fix for dropdowns in dark mode */
+.dark select {
+    background-color: #1f2937 !important; /* dark gray background */
+    color: white !important;
+    border-color: #4b5563 !important;
+}
+
+/* Firefox-specific styling */
+@-moz-document url-prefix() {
+    .dark select option {
+        background-color: #1f2937 !important;
+        color: white !important;
+    }
+
+    .dark select option:checked {
+        background-color: #4b5563 !important;
+        color: white !important;
+    }
+}
+
+/* Chrome/Safari specific styling */
+.dark select::-webkit-listbox {
+    background-color: #1f2937 !important;
+    color: white !important;
+}
+
+.dark select option {
+    background-color: #1f2937 !important;
+    color: white !important;
+}
+
+.dark select option:checked,
+.dark select option:hover {
+    background-color: #4b5563 !important;
+    color: white !important;
+}
+
+/* Focus state for all browsers */
+.dark select:focus {
+    border-color: #3b82f6 !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
