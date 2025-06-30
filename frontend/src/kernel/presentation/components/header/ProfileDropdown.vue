@@ -51,12 +51,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { onClickOutside } from "@vueuse/core";
 import ThemeToggle from "../ThemeToggle.vue";
-import type {UserPayload} from "@/kernel";
+import type {UserTokenPayload} from "@/kernel";
 
-const props = defineProps<{
-  user: UserPayload | null;
+defineProps<{
+  user: UserTokenPayload | null;
   imageUrl?: string;
 }>();
 

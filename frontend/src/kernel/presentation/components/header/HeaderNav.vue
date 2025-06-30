@@ -53,7 +53,6 @@ const {
   userInfo,
   imageUrl,
   authLoginUri,
-  login,
   logout,
   handleAuthCode
 } = useAuth();

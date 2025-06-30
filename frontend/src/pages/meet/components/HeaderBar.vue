@@ -118,12 +118,12 @@ import {
   MeetingSessionStore,
   type AttendeeJoinResponse,
   type MeetingResponse,
-  type UserPayload, DateTime, useToast,
+  type UserTokenPayload, DateTime, useToast,
 } from "@/kernel";
 
 import ThemeToggle from "@/kernel/presentation/components/ThemeToggle.vue";
 
-const {showErrorToast} = useToast();
+const {showToast} = useToast();
 
 const menuOpen = ref(false);
 const router = useRouter();
@@ -136,7 +136,7 @@ const toggleMenu = () => {
 const props = defineProps<{
   meetingdetails: MeetingResponse | undefined;
   attendeedetails: AttendeeJoinResponse | undefined;
-  userdetails: UserPayload | null;
+  userdetails: UserTokenPayload | null;
 }>();
 
 // 💡 Automatically updates when attendees change

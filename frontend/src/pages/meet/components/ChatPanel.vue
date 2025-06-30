@@ -158,13 +158,13 @@ import { ref, computed } from "vue";
 import type {
   AttendeeJoinResponse,
   MeetingResponse,
-  UserPayload,
+  UserTokenPayload,
 } from "@/kernel";
 
 defineProps<{
   meetingdetails: MeetingResponse | undefined;
   attendeedetails: AttendeeJoinResponse | undefined;
-  userdetails: UserPayload | null;
+  userdetails: UserTokenPayload | null;
 }>();
 const tab = ref<"group" | "personal">("group");
 const newMessage = ref("");

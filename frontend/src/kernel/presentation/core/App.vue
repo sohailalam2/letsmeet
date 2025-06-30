@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="min-h-screen dark:bg-dark-secondary-900 bg-[#fff6f3]">
-    <router-view :key="$route.fullPath" v-slot="{ Component }">
+    <router-view :key="route.fullPath" v-slot="{ Component }">
       <transition name="fade">
         <component :is="Component" />
       </transition>
@@ -10,10 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {useRouter} from "vue-router";
-import {AuthService} from "@/kernel";
+import { onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { AuthService } from "@/kernel";
 
+const route = useRoute();
 onMounted(() => {
   const router = useRouter();
 

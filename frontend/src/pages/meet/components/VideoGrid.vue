@@ -24,10 +24,10 @@ import {
   MeetingService,
   MeetingSessionStore,
   MeetingManager, setupCleanupEventListeners,
-  VideoTileInfo,
+  type VideoTileInfo,
   type AttendeeJoinResponse,
   type MeetingResponse,
-  type UserPayload, useToast,
+  type UserTokenPayload, useToast,
 } from "@/kernel";
 
 import type { Meeting, JoinInfo } from "../types";
@@ -35,7 +35,7 @@ import type { Meeting, JoinInfo } from "../types";
 const props = defineProps<{
   meetingdetails: MeetingResponse | undefined;
   attendeedetails: AttendeeJoinResponse | undefined;
-  userdetails: UserPayload | null;
+  userdetails: UserTokenPayload | null;
 }>();
 const router = useRouter();
 const { showErrorToast, showWarningToast } = useToast();

@@ -70,7 +70,7 @@ import {
   MeetingSessionStore,
   type AttendeeJoinResponse,
   type MeetingResponse,
-  type UserPayload,
+  type UserTokenPayload,
 } from "@/kernel";
 
 import VideoGrid from "./VideoGrid.vue";
@@ -98,7 +98,7 @@ const currentScreenShareInfo = ref<{
 const props = defineProps<{
   meetingdetails: MeetingResponse | undefined;
   attendeedetails: AttendeeJoinResponse | undefined;
-  userdetails: UserPayload | null;
+  userdetails: UserTokenPayload | null;
 }>();
 
 const activeScreenShares = ref<

@@ -1,13 +1,13 @@
-import {onBeforeUnmount, ref, watch} from 'vue';
+import {onBeforeUnmount, ref, watch, type Ref} from 'vue';
 
 /**
  * Composable for managing media streams (camera and microphone)
  * with proper resource cleanup and device switching
  */
 export function useMediaStream(
-    videoRef: ref<HTMLVideoElement | null>,
-    camera: ref<string | null>,
-    microphone: ref<string | null>
+    videoRef: Ref<HTMLVideoElement | null>,
+    camera: Ref<string | null>,
+    microphone: Ref<string | null>
 ) {
     // Stream state
     const isCameraOn = ref(false);

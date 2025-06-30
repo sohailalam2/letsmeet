@@ -66,7 +66,7 @@ import {
   MeetingService,
   type AttendeeJoinResponse,
   type MeetingResponse,
-  type UserPayload, AuthService, useToast,
+  type UserTokenPayload, AuthService, useToast,
   RandomButtonStore,
 } from "@/kernel";
 
@@ -79,7 +79,7 @@ const route = useRoute();
 const {showErrorToast} = useToast();
 
 const attendeeMeetings = ref<AttendeeJoinResponse | undefined>(undefined);
-const userDetails = ref<UserPayload | null>(null);
+const userDetails = ref<UserTokenPayload | null>(null);
 const meetings = ref<MeetingResponse | undefined>(undefined);
 const isChatOpen = ref(false);
 const buttonState = RandomButtonStore();

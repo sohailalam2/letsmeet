@@ -1,10 +1,10 @@
 import {computed, onMounted, ref} from 'vue';
-import {AuthService, type UserPayload, useToast} from "@/kernel";
+import {AuthService, type UserTokenPayload, useToast} from "@/kernel";
 
 const {showSuccessToast, showErrorToast} = useToast();
 
 export function useAuth() {
-    const userInfo = ref<UserPayload | null>(null);
+    const userInfo = ref<UserTokenPayload | null>(null);
     const imageUrl = ref<string | undefined>(undefined);
     const authLoginUri = ref<string | undefined>(undefined);
 

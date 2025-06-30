@@ -1,6 +1,6 @@
 import { DefaultMeetingSession } from "amazon-chime-sdk-js";
 import { MeetingSessionStore } from "@/kernel"; // Update with correct path
-import type { VideoTileInfo } from "@/stores/types"; // Update with correct path
+import type { VideoTileInfo } from "../stores/types"; // Update with correct path
 
 // Types for video tile info (if not already defined in your types file)
 interface VideoTileState {

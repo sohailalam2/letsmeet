@@ -4,7 +4,7 @@ export interface UserAuthResponseDTO {
   creation_timestamp: number
 }
 
-export interface UserPayload {
+export interface UserTokenPayload {
   sub: string;
   aud: string;
   nbf: number;

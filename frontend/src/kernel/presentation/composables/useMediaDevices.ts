@@ -19,11 +19,11 @@ export function useMediaDevices() {
             // Request permissions first to ensure we get labeled devices
             // This is especially important for Firefox
             await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-                .catch(err => {
+                .catch(_err => {
                     // If full permissions fail, try with just audio
                     return navigator.mediaDevices.getUserMedia({ audio: true });
                 })
-                .catch(err => {
+                .catch(_err => {
                     // If audio fails, try with just video
                     return navigator.mediaDevices.getUserMedia({ video: true });
                 })

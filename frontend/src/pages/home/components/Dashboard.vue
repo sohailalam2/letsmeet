@@ -12,10 +12,13 @@
         <p
           class="text-base text-dark-secondary-50 dark:text-dark-tertiary-700 md:text-2xl mt-2 mb-6 max-w-lg"
         >
-          Connect, collaborate — and let AI handle the notes, tasks, and follow-ups
+          Connect, collaborate — and let AI handle the notes, tasks, and
+          follow-ups
         </p>
         <MeetingActions />
-        <p class="text-xs text-dark-secondary-600 dark:text-dark-tertiary-700 mt-5">
+        <p
+          class="text-xs text-dark-secondary-600 dark:text-dark-tertiary-700 mt-5"
+        >
           ✅ Logged in as
           <span class="text-dark-secondary-50">{{ name }}.&nbsp;</span>
           <span>Ready to collaborate? Your assistant is standing by</span>
@@ -25,7 +28,8 @@
         <MeetingInfoCard />
         <MeetingCard />
         <p class="text-sm text-dark-primary-500 dark:text-dark-primary-300">
-          ✨ Click on any ended meeting to view its summary, notes, and tasks — automatically synced with Slack & Trello
+          ✨ Click on any ended meeting to view its summary, notes, and tasks —
+          automatically synced with Slack & Trello
         </p>
       </div>
     </div>
@@ -33,9 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
-import {AuthService} from "@/kernel";
+import { AuthService } from "@/kernel";
 
 import MeetingActions from "../components/MeetingActions.vue";
 import MeetingInfoCard from "../components/MeetingInfoCard.vue";
@@ -44,6 +48,6 @@ import MeetingCard from "../components/MeetingCard.vue";
 const name = ref("");
 
 onMounted(() => {
-  name.value = AuthService.getUserContext()?.name;
+  name.value = AuthService.getUserContext()?.name || "User";
 });
 </script>

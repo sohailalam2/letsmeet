@@ -194,13 +194,13 @@ import {
   RandomButtonStore,
   type AttendeeJoinResponse,
   type MeetingResponse,
-  type UserPayload, IS_DEVELOPMENT, useToast,
+  type UserTokenPayload, IS_DEVELOPMENT, useToast,
 } from "@/kernel";
 
 const props = defineProps<{
   meetingdetails: MeetingResponse | undefined;
   attendeedetails: AttendeeJoinResponse | undefined;
-  userdetails: UserPayload | null;
+  userdetails: UserTokenPayload | null;
 }>();
 const router = useRouter();
 const {showInfoToast, showSuccessToast, showErrorToast} = useToast();
